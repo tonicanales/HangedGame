@@ -1,5 +1,7 @@
 package main;
 
+import util.FileHelper;
+
 /**
  * Esta clase funciona como diccionario de palabras. Las palabras se guardaran en un archivo, cada linea 
  * correspondera a un par palabra:pista
@@ -24,6 +26,7 @@ public class HangedModel {
 	 */
 	private void loadWords(){
 		
+
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package main;
 
+import util.FileHelper;
 
 /**
  *  Aplicación para jugar Ahorcado similar a la publicada en: 
@@ -28,6 +29,8 @@ package main;
 public class HangedMain {
 	
 	
+	
+	
 	/**
 	 * 
 	 * @param args
@@ -35,6 +38,11 @@ public class HangedMain {
 
 	public static void main(String[] args) {
 		
+		
+		//String[] palabras = FileHelper.readFile("ahoracado");
+		//for (int i = 0; i < palabras.length; i++){
+
+
 	}
 	
 }
