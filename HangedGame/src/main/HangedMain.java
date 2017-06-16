@@ -28,7 +28,8 @@ import util.FileHelper;
 
 public class HangedMain {
 	
-	
+	private static final int MAX_FAILS = 4;
+
 	
 	
 	/**
@@ -37,12 +38,35 @@ public class HangedMain {
 	 */
 
 	public static void main(String[] args) {
+		int score = 10;
+		
+		HangedBoard board = new HangedBoard();
+		HangedModel dictionary = new HangedModel("ahorcado");
 		
 		
-		//String[] palabras = FileHelper.readFile("ahoracado");
-		//for (int i = 0; i < palabras.length; i++){
+		UserInterface.showMenuInicio(score);
+		String option = UserInterface.ScanOpcionMenuInicio();
+		
+		if (option.equals(UserInterface.OPTION_SALIR)){
+			return;
+		} else if (option.equals(UserInterface.OPTION_JUGAR)){
+			HangedModel.SecretWord secretWord = dictionary.getNextWord();
+			board.reset();
+			
+			startGame()
+			
+			UserInterface.showMenuBoard(secretWord, secretWord.hint, attepts);
+
+		}
+		
+		
+	}
 
 
+
+	private static void startGame() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
