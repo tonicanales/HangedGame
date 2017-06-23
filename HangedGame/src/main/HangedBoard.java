@@ -10,7 +10,7 @@ public class HangedBoard {
 	
 	/** Arreglo de caracteres que representa la palabra que el jugador va armando
 	 *  al inicio de la partida contiene caracteres '-', tantos como el tamaño de la palabra secreta */
-	private char wordPlayer[];
+	char wordPlayer[];
 	
 	/** fallos cometidos durante la partida actual */
 	private int currentfails;

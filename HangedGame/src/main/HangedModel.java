@@ -11,8 +11,7 @@ import util.FileHelper;
  */
 public class HangedModel {
 	
-	private String[] newWord;
-	private String[] oldWord;
+	private String[] Words;
 	final String FILE_NAME;
 
 	public HangedModel(String fileDictionary){
@@ -25,7 +24,7 @@ public class HangedModel {
 	 * Carga todo el diccionario de palabras desde el fichero
 	 */
 	private void loadWords(){
-		newWord = FileHelper.readFile(FILE_NAME);
+		Words = FileHelper.readFile(FILE_NAME);
 	}
 	
 	/**
@@ -35,25 +34,25 @@ public class HangedModel {
 	 * @return
 	 */
 	public SecretWord getNextWord(){
-		if (newWord.length==0){
+		if (Words.length==0){
 			loadWords();
 		}
-		int num = newWord.length;
-		double aleatorio = Math.random()*newWord.length+1;
-		removeFromNewWords((int)aleatorio);
-		SecretWord nuevapalabra = new SecretWord(newWord[(int)aleatorio]);
+		int num = Words.length;
+		int aleatorio = (int) (Math.random()*Words.length);
+		SecretWord nuevapalabra = new SecretWord(Words[aleatorio]);
+		removeFromNewWords(aleatorio);
 		return nuevapalabra;
 	}
 
 	private void removeFromNewWords(int aleatorio) { 
-		String[] copyWord = new String[newWord.length-1];
-		for (int i=0, j=0; i<newWord.length-1; i++, j++){
+		String[] copyWord = new String[Words.length-1];
+		for (int i=0, j=0; i<copyWord.length; i++, j++){
 			if(i==aleatorio) {
 				j++;
 			}
-			copyWord[i]=newWord[j];
+			copyWord[i]=Words[j];
 		}
-		newWord=copyWord;		
+		Words=copyWord;		
 	}
 	
 	public static class SecretWord{
