@@ -72,9 +72,8 @@ public class HangedMain {
 		board.startGame(secretWord.word, dificultad);
 
 			do {
-				
-				UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, attepts);
 				opcion = UserInterface.scannOpcionMenuBoard();
+				UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, attepts);
 
 				if (opcion.equals(UserInterface.OPTION_RESET)){
 					secretWord = dictionary.getNextWord();
@@ -90,7 +89,7 @@ public class HangedMain {
 						
 						int[] aciertos = board.addLetterToWordPlayer(opcion.charAt(0));
 						if (aciertos.length==0) attepts++;
-						UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, attepts);
+						//UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, attepts);
 						score += aciertos.length;
 						
 						if (attepts == dificultad) {
