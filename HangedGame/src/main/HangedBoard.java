@@ -21,7 +21,6 @@ public class HangedBoard {
 	
 	
 	public HangedBoard(){
-		//TODO complete definicion del contructor 
 		
 		
 	}
@@ -163,12 +162,23 @@ public class HangedBoard {
 		return streak;
 	}
 
+	public void setStreak(int strk){
+		if (strk == 0) streak=0;
+		else streak = strk;
+	}
+	
+	
 	public int getCurrentfails() {
 		return currentfails;
 	}
 
 	public int getMaxFails() {
 		return maxFails;
+	}
+	
+	public void setCurrentFails(int fails){
+		if (fails == 0) currentfails=0;
+		else currentfails++;
 	}
 	
 }

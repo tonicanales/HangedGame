@@ -29,10 +29,6 @@ import util.Input;
 
 public class HangedMain {
 	
-	private static final int MAX_FAILS = 4;
-
-	
-	
 	/**
 	 * 
 	 * @param args
@@ -44,101 +40,100 @@ public class HangedMain {
 		int dificultad = 7;
 		String opcion = "";
 		String option = "";
+		int racha = 0;
 
 		HangedModel.SecretWord secretWord;
 		
 		
 		HangedBoard board = new HangedBoard();
 		HangedModel dictionary = new HangedModel("ahorcado");
+
 		
 		
 		do {
 		
-		UserInterface.showMenuInicio(score);
-		option = UserInterface.ScanOpcionMenuInicio();
-		
-		if (option.equals(UserInterface.OPTION_DIFICULTAD)){
-			System.out.println("Elige el nivel de dificultad\n1 (fácil) - 2 (medio) - 3 (experto)");
-			int dif = Input.scannInt();
-			while (dif != 1 && dif !=2 && dif!=3){
-				System.out.println("opcion no válida, pon 1, 2 o 3");
-				dif = Input.scannInt();
-			}
-			if (dif ==1) {dificultad = 9;}
-			else if (dif == 5) dificultad = 5;
-			}
-		board.reset();
-		secretWord = dictionary.getNextWord();
-		board.startGame(secretWord.word, dificultad);
-
-			do {
-				opcion = UserInterface.scannOpcionMenuBoard();
-				UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, attepts);
-
-				if (opcion.equals(UserInterface.OPTION_RESET)){
-					secretWord = dictionary.getNextWord();
-					board.reset();
-					board.startGame(dictionary.getNextWord().word, MAX_FAILS);
-				} 	
-					else {
-						while (board.hasLetterInWordPlayer(opcion.charAt(0))){
-							System.out.println("Esta letra ya la has puesto");
-							opcion = UserInterface.scannOpcionMenuBoard();
-
-						}
-						
-						int[] aciertos = board.addLetterToWordPlayer(opcion.charAt(0));
-						if (aciertos.length==0) attepts++;
-						//UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, attepts);
-						score += aciertos.length;
-						
-						if (attepts == dificultad) {
-							
-							UserInterface.showMenuAgain(false, 5);
-							if (UserInterface.scannOptionMenuEndGame().equals("SI")){
-									option="";
-								
-							}
-						}
-						
-						if (score == secretWord.word.length()){
-
-							UserInterface.showMenuAgain(true, 5);
-
-							}
-						}
-			}	while (!opcion.equals("salir"));
-					
-	
-	
+			UserInterface.showMenuInicio(board.getStreak());
+			option = UserInterface.ScanOpcionMenuInicio();
 			
+			switch (option) {
+				case UserInterface.OPTION_SALIR:
+					break;
+				case UserInterface.OPTION_DIFICULTAD:
+					System.out.println("Elige el nivel de dificultad\n1 (fácil) - 2 (medio) - 3 (experto)");
+					int dif = Input.scannInt();
+					while (dif != 1 && dif !=2 && dif!=3){
+						System.out.println("opcion no válida, pon 1, 2 o 3");
+						dif = Input.scannInt();
+					}
+					if (dif ==1) dificultad = 9;
+					else if (dif == 5) dificultad = 5;
+				case UserInterface.OPTION_JUGAR:
+					board.reset();
+					secretWord = dictionary.getNextWord();
+					board.startGame(secretWord.word, dificultad);
+
+					do {
+						UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, board.getCurrentfails());
+						opcion = UserInterface.scannOpcionMenuBoard();
+						
+						switch (option) {
+						case UserInterface.OPTION_SALIR:
+							break;
+						case UserInterface.OPTION_RESET:
+							board.startGame(dictionary.getNextWord().word, board.getMaxFails());
+							board.reset();
+							break;
+						default:
+							while (board.hasLetterInWordPlayer(opcion.charAt(0))){
+								System.out.println("Esta letra ya la has puesto");
+								opcion = UserInterface.scannOpcionMenuBoard();
+
+							}
+							
+							int[] aciertos = board.addLetterToWordPlayer(opcion.charAt(0));
+							if (aciertos.length==0) board.setCurrentFails(++attepts);
+							score += aciertos.length;
+							
+							if (board.getCurrentfails() == dificultad) {
+								attepts = 0;
+								score = 0;
+								racha = 0;
+								board.setStreak(racha);
+								UserInterface.showMenuAgain(false, board.getStreak());
+								if (UserInterface.scannOptionMenuEndGame().equals("SI")){
+								option = UserInterface.OPTION_JUGAR;
+								opcion = UserInterface.OPTION_SALIR;
+								} else {
+									opcion = UserInterface.OPTION_SALIR;
+									option = UserInterface.OPTION_SALIR;
+								}							}
+
+							if (score == secretWord.word.length()){
+								UserInterface.showMenuBoard(board.wordPlayer, secretWord.hint, board.getCurrentfails());
+								attepts = 0;
+								score = 0;
+								board.setStreak(++racha);
+								UserInterface.showMenuAgain(true, board.getStreak());
+								if (UserInterface.scannOptionMenuEndGame().equals("SI")){
+								option = UserInterface.OPTION_JUGAR;
+								opcion = UserInterface.OPTION_SALIR;
+								} else {
+									opcion = UserInterface.OPTION_SALIR;
+									option = UserInterface.OPTION_SALIR;
+								}
+							}
+							break;
+						}
+
+					}	while (!opcion.equals(UserInterface.OPTION_SALIR));
+					break;
+			}
+
 	} while(!option.equals("salir"));	
 		
 		System.out.println("Adiós");
-	
-		/*
-			
-			
-			if (opcion.equals("salir")){
-				System.out.println("Adiós");
-			} else if (opcion.equals("reset")){
-				board.reset();
-				board.startGame(dictionary.getNextWord().word, maxFails);
-			} else {
-				if (board.hasLetterInWordPlayer(opcion.charAt(0))){
-					System.out.println("La letra ya la haspuesto");
-					UserInterface.showMenuBoard(secretWord.word, secretWord.hint, attepts);
-					opcion = UserInterface.scannOpcionMenuBoad();
-				} else if (board.hasLetterInWordSecret(opcion.charAt(0))){
-					board.addLetterToWordPlayer(opcion.charAt(0));
-				}
-			}
-					
-		}
+
 		
-		
-		
-	}*/
 
 	
 }

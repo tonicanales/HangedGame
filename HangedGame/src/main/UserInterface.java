@@ -6,7 +6,6 @@ public class UserInterface {
 	public static final String OPTION_SALIR = "salir";
 	public static final String OPTION_JUGAR = "jugar";
 	public static final String OPTION_DIFICULTAD = "dificultad";
-
 	public static final String OPTION_RESET = "reset";
 
 	
